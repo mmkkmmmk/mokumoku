@@ -20,4 +20,8 @@ module ApplicationHelper
   def active_action?(*names)
     names.any?("#{controller_path}##{action_name}")
   end
+
+  def user_woman?
+    current_user&.woman?
+  end
 end
