@@ -10,6 +10,7 @@ class Event < ApplicationRecord
   has_many :attendees, through: :attendances, class_name: 'User', source: :user
   has_many :bookmarks, dependent: :destroy
   has_one_attached :thumbnail
+  attribute :only_woman, :integer, default: 0
 
   scope :future, -> { where('held_at > ?', Time.current) }
   scope :past, -> { where('held_at <= ?', Time.current) }
@@ -26,5 +27,13 @@ class Event < ApplicationRecord
 
   def future?
     !past?
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["content", "created_at", "held_at", "id", "only_woman", "prefecture_id", "title", "updated_at", "user_id"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["attendances", "attendees", "bookmarks", "commented_users", "comments", "notifications", "prefecture", "thumbnail_attachment", "thumbnail_blob", "user"]
   end
 end

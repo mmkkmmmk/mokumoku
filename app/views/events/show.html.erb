@@ -9,6 +9,9 @@
                 <span class="badge bg-secondary">
                   <%= l @event.held_at.to_date, format: :short %>
                 </span>
+                <% if @event.only_woman? %>
+                  <span class="badge bg-danger">女性限定</span>
+                <% end %>
               </h5>
             </div>
             <h1>
@@ -85,20 +88,22 @@
           <div class="text-center">
             <% if logged_in? %>
               <% if !current_user.owner?(@event) %>
-                <% if current_user.attend?(@event) %>
-                  <%= link_to 'キャンセルする',
-                              event_attendance_url(@event),
-                              class: 'btn btn-primary',
-                              method: :delete,
-                              data: { confirm: 'キャンセルします' }
-                  %>
-                <% else %>
-                  <%= link_to 'このもくもく会に参加する',
-                              event_attendance_url(@event),
-                              class: 'btn btn-primary',
-                              method: :post,
-                              data: { confirm: '申し込みます' }
-                  %>
+                <% if !@event.only_woman? || current_user.gender == "woman" %>
+                  <% if current_user.attend?(@event) %>
+                    <%= link_to 'キャンセルする',
+                      event_attendance_url(@event),
+                      class: 'btn btn-primary',
+                      method: :delete,
+                      data: { confirm: 'キャンセルします' }
+                    %>
+                  <% else %>
+                    <%= link_to 'このもくもく会に参加する',
+                      event_attendance_url(@event),
+                      class: 'btn btn-primary',
+                      method: :post,
+                      data: { confirm: '申し込みます' }
+                    %>
+                  <% end %>
                 <% end %>
               <% end %>
             <% end %>

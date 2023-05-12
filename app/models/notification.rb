@@ -65,7 +65,6 @@ class Notification < ApplicationRecord
   def path
     return '#' if notifiable.blank?
 
-    # rubocop:disable Lint/DuplicateBranch
     case kind.to_sym
     when :created_event
       event_path(notifiable)
@@ -76,7 +75,6 @@ class Notification < ApplicationRecord
     when :liked_event
       event_path(notifiable.event)
     end
-    # rubocop:enable Lint/DuplicateBranch
   end
   # rubocop:enable Metrics/MethodLength
 end

@@ -8,7 +8,7 @@ class CreateEvents < ActiveRecord::Migration[6.1]
       t.datetime :held_at, null: false
       t.references :prefecture, null: false, foreign_key: true
       t.references :user, null: false, foreign_key: true
-
+      t.string :only_woman, null: false
       t.timestamps
     end
   end
