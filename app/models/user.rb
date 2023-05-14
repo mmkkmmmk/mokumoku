@@ -29,11 +29,11 @@ class User < ApplicationRecord
   scope :allowing_liked_event_notification,
         -> { joins(:notification_timings).merge(NotificationTiming.liked_event) }
 
-  enum gender: { その他: 'other', 男性: 'man', 女性: 'woman' }
+  enum gender: { other: 'other', man: 'man', woman: 'woman' }
   after_initialize :set_default_gender
 
   def set_default_gender
-    self.gender ||= :その他
+    self.gender ||= :other
   end
 
   def owner?(event)
@@ -85,6 +85,6 @@ class User < ApplicationRecord
   end
 
   def woman?
-    gender == '女性'
+    gender == 'woman'
   end
 end
